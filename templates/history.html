@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload History</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<!-- TOP BAR -->
+<div class="top-bar">
+    <a href="/upload" class="back-button">← Back to Upload</a>
+    <a href="/logout" id="logout-button">Logout</a>
+</div>
+
+<!-- PAGE HEADING -->
+<h1>Upload History</h1>
+
+<!-- HISTORY LIST -->
+<div class="history-list">
+    {% if history_entries %}
+        {% for entry in history_entries %}
+        <div class="history-item">
+
+            <!-- IMAGE COLUMN -->
+            <div class="image-column">
+                {% if entry.output_exists %}
+                    <img src="{{ url_for('static', path=entry.url) }}" 
+                         alt="{{ entry.filename }}" 
+                         class="history-image">
+                {% else %}
+                    <p class="glow-text">
+                        Output deleted by {{ entry.output_status|title }}
+                    </p>
+                {% endif %}
+            </div>
+
+            <!-- BUTTONS COLUMN -->
+            <div class="buttons-column">
+                <!-- Export Button -->
+                {% if entry.output_exists %}
+                    <a href="{{ url_for('static', path=entry.url) }}" 
+                       class="export-button" 
+                       download>Export as .png</a>
+                {% endif %}
+
+                <!-- Single Delete Button -->
+                {% if entry.output_exists %}
+                    <div class="delete-container">
+                        <form method="POST" action="/delete_output_only">
+                            <input type="hidden" name="filename" value="{{ entry.filename }}">
+                            <button class="delete-button" title="Delete Output">
+                                Delete Output
+                            </button>
+                        </form>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p class="glow-text">No files uploaded yet!</p>
+    {% endif %}
+</div>
+
+<!-- Scripts for Theme Persistence and History Navigation -->
+<script>
+    const theme = localStorage.getItem('theme') || '';
+    if (theme) {
+        document.body.classList.add(theme);
+    }
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function() {
+        window.location.replace("/upload");
+    };
+</script>
+</body>
+</html>

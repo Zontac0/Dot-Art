@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            font-size: 3rem;
+            text-align: center;
+            margin: 40px 0 20px;
+        }
+        h2 {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        p, li {
+            font-size: 1.25rem;
+            line-height: 1.9;
+        }
+        .image-preview {
+            max-width: 400px;
+            max-height: 400px;
+            border-radius: 10px;
+            border: 2px solid #ccc;
+        }
+        .example-grid {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .image-group {
+            text-align: center;
+        }
+        .arrow {
+            font-size: 3rem;
+            color: #00ffff;
+            text-align: center;
+            align-self: center;
+            text-shadow: 0px 0px 8px #00ffff, 0px 0px 15px #00ffff;
+            animation: pulseGlow 0.5s infinite;
+        }
+        .mode-box {
+            font-size: 1rem;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #00ffff;
+            background: rgba(0, 255, 157, 0.1);
+            color: #00ffff;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .credit {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #00ffff;
+            text-align: right;
+            margin: 40px;
+            text-shadow: 0px 0px 8px #00ffff, 0px 0px 15px #00ffff;
+            animation: pulseGlow 1.5s infinite;
+        }
+        @keyframes pulseGlow {
+            0% {
+                text-shadow: 0px 0px 8px #00ffff, 0px 0px 15px #00ffff;
+            }
+            50% {
+                text-shadow: 0px 0px 15px #00ffff, 0px 0px 30px #00ffff;
+            }
+            100% {
+                text-shadow: 0px 0px 8px #00ffff, 0px 0px 15px #00ffff;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- THEME TOGGLE BUTTON (Top-Right Corner) -->
+<button id="theme-toggle" style="position:absolute; top:10px; right:10px;">
+    Toggle Theme
+</button>
+
+<!-- MAIN HEADING -->
+<h1>Create Dot Art from Images</h1>
+
+<!-- NAVIGATION LINKS -->
+<div style="margin:30px 0; text-align:center;">
+    <a href="/register">Go to Registration</a> | 
+    <a href="/login">Go to Login</a>
+</div>
+
+<!-- ABOUT THE WEBSITE -->
+<section style="margin:40px auto; max-width:800px; text-align:left;">
+    <h2>About This Project</h2>
+    <p>
+        <strong>Dot Art Creator</strong> is a unique and interactive platform that allows you to transform any image into a captivating,
+        ASCII-style piece of dot art. Developed with a focus on precision, creativity, and performance,
+        this tool showcases the best of modern programming:
+    </p>
+    <ul>
+        <li>⚡ <strong>Powered by FastAPI</strong> — A blazing fast backend framework for seamless image processing and user experience.</li>
+        <li>👁️ <strong>Advanced Image Analysis with OpenCV</strong> — Leverage edge detection and resizing algorithms for crisp and clean results, regardless of input image size.</li>
+        <li>🎨 <strong>Custom Text Rendering with Pillow</strong> — Export your artwork as high-resolution images with customizable text, color, and background options.</li>
+        <li>🔐 <strong>Secure Session Management</strong> — A built-in user registration and login system ensures your work stays private and secure across sessions.</li>
+    </ul>
+    <p>
+        This platform is ideal for artists, hobbyists, and developers alike — anyone looking to give their images a
+        creative, typographic twist. Try it out and watch your images evolve into memorable works of ASCII-style dot art!
+        
+        <ul>
+            <li>👁️There are Three modes available for you to choose from:</li>
+            <li><strong>Black and White</strong> - For a classic, high-contrast look.</li>
+            <li><strong>Original Colour</strong> - Retain the original colors of your image.</li>
+            <li><strong>Custom Colour</strong> - Choose your own color palette for a personalized touch.</li>
+    </p>
+</section>
+
+<!-- EXAMPLES HEADING -->
+<h2>See Dot Art</h2>
+
+<!-- EXAMPLES GRID -->
+<div class="example-grid">
+    <!-- IMAGE GROUP 1 -->
+    <div class="image-group">
+        <h3>Original Image 1</h3>
+        <img src="/static/examples/original1.png" alt="Original 1" class="image-preview">
+    </div>
+
+    <div class="arrow">➔</div>
+
+    <div class="image-group">
+        <h3>Dot Art Output 1</h3>
+        <img src="/static/examples/output1.png" alt="Output 1" class="image-preview">
+        <div class="mode-box">Mode: Black and White | Transformation: Edge Detection</div>
+    </div>
+</div>
+
+<!-- SECOND EXAMPLES GRID -->
+<div class="example-grid">
+    <!-- IMAGE GROUP 2 -->
+    <div class="image-group">
+        <h3>Original Image 2</h3>
+        <img src="/static/examples/original2.png" alt="Original 2" class="image-preview">
+    </div>
+
+    <div class="arrow">➔</div>
+
+    <div class="image-group">
+        <h3>Dot Art Output 2</h3>
+        <img src="/static/examples/output2.png" alt="Output 2" class="image-preview">
+        <div class="mode-box">Mode: Original Colour | Transformation: Edge Detection</div>
+    </div>
+</div>
+
+<!-- DEVELOPER CREDIT --> 
+ <div class="credit"> 
+    Developed by Rohit Kumar 
+    <a href="https://www.instagram.com/rk_3.14" 
+    target="_blank" title="Instagram" style="margin-left:10px;"> 
+            <img src="/static/icons/instagram.png" alt="Instagram" 
+    style="width:24px;height:24px;vertical-align:middle;"> 
+    </a> 
+       <a href="https://www.linkedin.com/in/zontac" 
+       target="_blank" title="LinkedIn" style="margin-left:5px;"> 
+       <img src="/static/icons/linkedin.png" alt="LinkedIn" 
+       style="width:24px;height:24px;vertical-align:middle;"> 
+    </a> 
+</div>
+
+<!-- Scripts -->
+<script>
+    // THEME TOGGLE LOGIC
+    const themeButton = document.getElementById('theme-toggle');
+    document.addEventListener("DOMContentLoaded", function() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light');
+        }
+    });
+    themeButton?.addEventListener('click', () => {
+        document.body.classList.toggle('light');
+        localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+    });
+</script>
+</body>
+</html>

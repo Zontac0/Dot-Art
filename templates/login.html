@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<!-- TOP BAR BUTTONS -->
+<div class="top-bar">
+    <a href="/" class="back-button">← Back</a>
+</div>
+
+<h1>Login</h1>
+<form method="POST">
+    <input type="text" name="roll_no" placeholder="Username" required><br/>
+    <input type="text" name="security_word" placeholder="Enter Security Word" required><br/>
+    <button type="submit">Login</button>
+</form>
+{% if error %}<p style="color: red">{{ error }}</p>{% endif %}
+
+<!-- Scripts for disallowing going back after login -->
+<script>
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function() {
+        window.location.replace("/upload");
+    };
+</script>
+
+<!-- Theme Persistence Script -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light');
+        }
+    });
+</script>
+
+<!-- ==================================================
+       PRIVACY DISCLAIMER & RISK WARNING
+================================================== -->
+<div style="
+    max-width: 800px;
+    margin: 60px auto;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #f0f0f0;">
+    <h2 style="font-size:1.25rem; font-weight:600;">
+        Privacy & Session Management
+    </h2>
+    <p>Original files are automatically deleted upon logout for your privacy and security. All uploaded outputs can be reviewed and deleted via the <strong>History</strong> page. Deleted files are marked clearly as "Deleted by User" or "Deleted by Admin" for accountability and transparency of your data lifecycle.</p>
+
+    <h3 style="font-size:1.1rem; font-weight:600; margin-top:20px;">
+        ⚠️ Risk and Usage Advisory
+    </h3>
+    <p style="color:#ff5555;">
+        * Do not upload sensitive, private, or personal images. We accept no responsibility for any data loss, compromise, or misuse arising from files uploaded to this service.
+    </p>
+</div>
+</body>
+</html>

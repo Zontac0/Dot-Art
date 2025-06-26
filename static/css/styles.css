@@ -1,0 +1,370 @@
+/* ==========================
+   GENERAL STYLES
+========================== */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: linear-gradient(135deg, #222, #555);
+    color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    text-align: center;
+    text-shadow: 0px 0px 8px #00ffff;
+    margin: 20px 0;
+}
+
+.top-bar {
+    position: relative;
+    padding: 10px;
+}
+
+#logout-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 1rem;
+    text-decoration: none;
+    color: #00ffff;
+    padding: 8px 16px;
+    border-radius: 30px;
+    border: 2px solid #00ffff;
+    background: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#logout-button:hover {
+    background-color: #00ffff;
+    color: #1c1c1c;
+    transform: scale(1.1);
+}
+
+/* ==========================
+   FORM STYLES
+========================== */
+form {
+    margin: 20px auto;
+    padding: 30px;
+    border-radius: 12px;
+    background: #333;
+    max-width: 500px;
+    box-shadow: 0px 0px 30px #00ffff;
+    animation: pulseGlow 1.5s infinite alternate;
+}
+
+input[type=text],
+input[type=file],
+select {
+    padding: 10px;
+    margin: 10px 0;
+    width: 100%;
+    border-radius: 8px;
+    border: none;
+}
+
+label {
+    font-size: 1rem;
+    color: #f0f0f0;
+}
+
+/* ==========================
+   COLOR FEEDBACK STYLE
+========================== */
+.color-picker-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.color-box {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    border: 2px solid #00ffff;
+    cursor: pointer;
+    animation: pulseGlow 1.5s infinite alternate;
+}
+
+/* ==========================
+   BUTTON STYLES
+========================== */
+button {
+    font-size: 1.2rem;
+    padding: 15px;
+    border-radius: 30px;
+    border: 2px solid #00ffff;
+    background: none;
+    color: #00ffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: pulseGlow 1.5s infinite alternate;
+}
+
+button:hover {
+    background-color: #00ffff;
+    color: #1c1c1c;
+    transform: scale(1.1);
+}
+
+/* ==========================
+   OUTPUT STYLES
+========================== */
+.output {
+    font-size: 8px;
+    font-family: monospace;
+    line-height: 1;
+    padding: 20px;
+    margin: 30px auto;
+    max-width: fit-content;
+    overflow: auto;
+    border-radius: 8px;
+    box-shadow: 0px 0px 30px #00ffff;
+    animation: pulseGlow 1.5s infinite alternate;
+    white-space: pre;
+}
+
+.actions {
+    margin: 20px 0;
+}
+
+a,
+.actions button {
+    font-size: 1rem;
+    text-decoration: none;
+    color: #00ffff;
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: 2px solid #00ffff;
+    background: none;
+    cursor: pointer;
+    margin: 5px;
+    transition: all 0.3s ease;
+    animation: pulseGlow 1.5s infinite alternate;
+}
+
+a:hover,
+.actions button:hover {
+    background-color: #00ffff;
+    color: #1c1c1c;
+    transform: scale(1.1);
+}
+
+/* ==========================
+   SPINNER
+========================== */
+.spinner {
+    font-size: 1.5rem;
+    color: #00ffff;
+    text-align: center;
+    margin: 20px auto;
+    animation: spinFade 1.5s infinite alternate;
+}
+
+@keyframes spinFade {
+    from {
+        opacity: 0.3;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* ==========================
+   IMAGE & GLOWING STYLES
+========================== */
+.image-preview {
+    display: block;
+    margin: 20px auto;
+    border-radius: 12px;
+    border: 3px solid #00ffff;
+    box-shadow: 0px 0px 25px #00ffff;
+    animation: pulseGlow 1.5s infinite alternate;
+    max-width: 500px;
+}
+
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0px 0px 25px #00ffff;
+    }
+    100% {
+        box-shadow: 0px 0px 45px #00ffff;
+    }
+}
+
+/* ==========================
+   GLOWING BEP TEXT
+========================== */
+.glow-text {
+    color: #00ffff;
+    text-shadow: 0px 0px 15px #00ffff;
+    animation: textGlow 1.5s infinite alternate;
+}
+
+@keyframes textGlow {
+    0% {
+        text-shadow: 0px 0px 15px #00ffff;
+    }
+    100% {
+        text-shadow: 0px 0px 30px #00ffff;
+    }
+}
+
+/* ==========================
+   LIGHT MODE STYLES
+========================== */
+body.light {
+    background: #fafafa;
+    color: #111;
+}
+
+body.light .output {
+    background: #f9f9f9;
+    color: #000;
+}
+
+body.light form {
+    background: #fff;
+    color: #000;
+}
+
+body.light button,
+body.light a {
+    border-color: #000;
+    color: #000;
+}
+
+/* ==========================
+   HISTORY PAGE SPECIFIC STYLES
+========================== */
+
+/* HISTORY LIST LAYOUT */
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #333;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px #00ffff;
+}
+
+/* IMAGE COLUMN */
+.image-column {
+    flex: 0 0 auto;
+}
+
+.history-image {
+    max-width: 600px;
+    max-height: 350px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #00ffff;
+}
+
+/* BUTTONS COLUMN */
+.buttons-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+/* Export Button Styling (Same as Export as .png) */
+.export-button,
+.delete-button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    border-radius: 30px;
+    border: 2px solid #00ffff;
+    background: none;
+    color: #00ffff;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+    animation: pulseGlow 1.5s infinite alternate;
+}
+
+.export-button:hover,
+.delete-button:hover {
+    background-color: #00ffff;
+    color: #1c1c1c;
+    transform: scale(1.1);
+}
+
+/* Specific Red for Delete Buttons */
+.delete-button {
+    border-color: #ff5555;
+    color: #ff5555;
+}
+
+.delete-button:hover {
+    background-color: #ff5555;
+    color: #1c1c1c;
+}
+
+/* Disabled Buttons */
+.delete-button:disabled {
+    color: #777;
+    border-color: #777;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Deletion Status Text */
+.deletion-status {
+    font-size: 0.8rem;
+    color: #ff8888;
+    text-align: right;
+}
+
+/* Top Bar Buttons */
+.top-bar {
+    position: relative;
+    padding: 10px;
+}
+
+.top-bar .back-button {
+    position: absolute;
+    left: 20px;
+    font-size: 1rem;
+    text-decoration: none;
+    color: #00ffff;
+    padding: 8px 16px;
+    border-radius: 30px;
+    border: 2px solid #00ffff;
+    transition: all 0.3s ease;
+}
+
+.top-bar .back-button:hover {
+    background-color: #00ffff;
+    color: #1c1c1c;
+    transform: scale(1.1);
+}
+
+/* Specific fix for links inside the .credit class */
+.credit a {
+    border: none !important;
+    box-shadow: none !important;
+    background: none !important;
+    text-decoration: none !important;
+}
+
+.credit a:hover {
+    background: none !important;
+    transform: none !important;
+}

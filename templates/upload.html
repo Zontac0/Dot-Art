@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Image for Text Generation</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        #alert-box {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            display: none;
+        }
+        #alert-box.success { background-color: #4CAF50; color: #fff; }
+        #alert-box.error { background-color: #f44336; color: #fff; }
+        #spinner { font-size: 1rem; margin: 10px 0; display: none; }
+        #custom-scale-fieldset {
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        #custom-scale-fieldset legend {
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<!-- LOGOUT BUTTON -->
+<a href="/logout" id="logout-button">Logout</a>
+<!-- HISTORY BUTTON -->
+<a href="/history" id="history-button" class="actions" style="position: absolute; top: 50px; right: 20px;">
+    History
+</a>
+<!-- THEME TOGGLE BUTTON -->
+<a href="javascript:void(0)" id="theme-toggle" class="actions" style="position: absolute; top: 110px; right: 20px;">
+    Toggle Theme
+</a>
+
+<h1>Upload Image for Dot Art Generation</h1>
+<form id="upload-form" enctype="multipart/form-data">
+    <input type="file" id="image_file" name="file" accept="image/*" required><br/>
+    <button type="button" id="clear_file" style="font-size:0.8rem; padding:3px 8px; margin:3px 0;">
+        Clear
+    </button><br/>
+
+    <label for="char">Character for drawing:</label>
+    <input type="text" id="char" name="char" value="." required><br/>
+    <label for="color_mode">Color Mode:</label>
+    <select id="color_mode" name="color_mode">
+        <option value="original">Original Image Color</option>
+        <option value="black">Black Mode</option>
+        <option value="custom">Custom Color</option>
+    </select><br/>
+    <label for="detection_mode">Detection Mode:</label>
+    <select id="detection_mode" name="detection_mode">
+        <option value="edge">Edge Detection Only</option>
+        <option value="edge_contrast">Edge + Contrast Detection</option>
+    </select><br/>
+    <label for="bg_color">Background Color:</label>
+    <input type="color" id="bg_color" name="bg_color" value="#000000"><br/>
+
+    <fieldset id="custom-scale-fieldset">
+        <legend>⚙️ Custom Scale</legend>
+        <label>
+            <input type="checkbox" id="custom_scale" name="custom_scale"> Use Custom Scale
+        </label>
+        <div id="custom_scale_options" style="display: none; margin-top:8px;">
+            <label for="target_width">Width (characters):</label>
+            <input type="number" id="target_width" name="target_width" value="100">
+
+            <label for="target_height" style="margin-left:15px;">
+                Height (characters):</label>
+            <input type="number" id="target_height" name="target_height">
+        </div>
+    </fieldset>
+
+    <div id="custom_colors" style="display: none;">
+        <label for="custom_dot_color">Custom Dot Color:</label>
+        <input type="color" id="custom_dot_color" name="custom_dot_color" value="#ffffff"><br/>
+    </div>
+
+    <button type="submit">Submit</button>
+    <div id="spinner">Processing... Please wait</div>
+</form>
+
+<div id="output-result"></div>
+
+<div class="actions">
+    <button id="count-outputs" type="button">Check Output Count</button>
+    <button id="clear-outputs" type="button">Clear All Output Images</button>
+</div>
+
+<div id="alert-box"></div>
+
+<!-- Scripts -->
+<script>
+    function showAlert(message, type='success') {
+        const alertBox = document.getElementById('alert-box');
+        alertBox.textContent = message;
+        alertBox.className = '';
+        alertBox.classList.add(type);
+        alertBox.style.display = 'block';
+        setTimeout(() => alertBox.style.display = 'none', 4000);
+    }
+
+    // ========================= THEME TOGGLE LOGIC =========================
+    const themeButton = document.getElementById('theme-toggle');
+    themeButton?.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.body.classList.toggle('light');
+        localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+    });
+    if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light');
+    }
+
+    // ========================= CLEAR FILE LOGIC =========================
+    const clearFileButton = document.getElementById('clear_file');
+    const imageFileInput = document.getElementById('image_file');
+    clearFileButton?.addEventListener('click', (e) => {
+        e.preventDefault();
+        imageFileInput.value = '';
+    });
+
+    // ========================= TOGGLE CUSTOM SCALE =========================
+    const customScaleCheck = document.getElementById('custom_scale');
+    const customScaleOptions = document.getElementById('custom_scale_options');
+    customScaleCheck?.addEventListener('change', () => {
+        customScaleOptions.style.display = customScaleCheck.checked ? 'block' : 'none';
+    });
+
+    // ========================= TOGGLE CUSTOM COLOR =========================
+    const colorMode = document.getElementById('color_mode');
+    const customColors = document.getElementById('custom_colors');
+    colorMode?.addEventListener('change', () => {
+        customColors.style.display = colorMode.value === 'custom' ? 'block' : 'none';
+    });
+    if (colorMode.value === 'custom') {
+        customColors.style.display = 'block';
+    }
+
+    // ========================= AJAX UPLOAD LOGIC =========================
+    const form = document.getElementById('upload-form');
+    const spinner = document.getElementById('spinner');
+    const outputResult = document.getElementById('output-result');
+
+    form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        spinner.style.display = 'block';
+        outputResult.innerHTML = '';
+        const formData = new FormData(form);
+        try {
+            const response = await fetch("/process_ajax", {
+                method: "POST",
+                body: formData
+            });
+            spinner.style.display = 'none';
+            const data = await response.json();
+            if (data.error) {
+                showAlert(data.error, 'error');
+            } else {
+                outputResult.innerHTML = `
+                    <h2>Result:</h2>
+                    <img src="${data.output_png}" alt="Output Image" class="image-preview"><br/>
+                    <div class="actions">
+                        <a href="${data.output_png}" id="export-png" download>Export as .png</a>
+                        <button id="export-txt">Export as .txt</button>
+                        <button id="copy-text">Copy Text</button>
+                    </div>
+                    <div id="output-text" style="display:none;" class="preformatted-text">${data.text_result}</div>
+                `;
+                attachExportAndCopy();
+            }
+        } catch (error) {
+            spinner.style.display = 'none';
+            showAlert("Error submitting the form.", 'error');
+            console.error(error);
+        }
+    });
+
+    // ========================= EXPORT & COPY LOGIC =========================
+    function attachExportAndCopy() {
+        const exportTxtButton = document.getElementById('export-txt');
+        const copyButton = document.getElementById('copy-text');
+
+        exportTxtButton?.addEventListener('click', () => {
+            const output = document.getElementById('output-text');
+            saveText(output.textContent, 'output.txt');
+        });
+        copyButton?.addEventListener('click', async () => {
+            const output = document.getElementById('output-text');
+            try {
+                await navigator.clipboard.writeText(output.textContent);
+                alert("Text copied to clipboard!");
+            } catch (error) {
+                alert("Copy failed.");
+            }
+        });
+    }
+
+    function saveText(data, filename) {
+        const blob = new Blob([data], { type: 'text/plain' });
+        const a = document.createElement('a');
+        a.download = filename;
+        a.href = URL.createObjectURL(blob);
+        a.click();
+    }
+
+    // ========================= OUTPUTS BUTTONS LOGIC =========================
+    const countOutputsButton = document.getElementById('count-outputs');
+    const clearOutputsButton = document.getElementById('clear-outputs');
+
+    countOutputsButton?.addEventListener('click', async () => {
+        const response = await fetch("/count_outputs");
+        const data = await response.json();
+        if (data.error) {
+            showAlert(data.error, 'error');
+        } else {
+            const {count, total_images, max_limit} = data;
+            showAlert(`You have ${count}/${max_limit} active output images.`, 'success');
+        }
+    });
+    clearOutputsButton?.addEventListener('click', async () => {
+        if (confirm("Are you sure you want to delete all output images?")) {
+            const response = await fetch("/clear_outputs", { method: "POST" });
+            if (response.ok) {
+                showAlert("All output images have been deleted.");
+                location.reload();
+            } else {
+                showAlert("Error deleting images.", 'error');
+            }
+        }
+    });
+</script>
+</body>
+</html>
