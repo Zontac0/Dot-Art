@@ -1,0 +1,5 @@
+2025-06-27 00:39:08,836 [INFO]: User registered: rohit
+2025-06-27 00:39:15,621 [INFO]: User logged in: rohit
+2025-06-27 00:39:24,116 [INFO]: User rohit uploaded via AJAX and processed image_1_rohit.png
+2025-06-27 00:40:49,272 [INFO]: User rohit uploaded via AJAX and processed image_2_rohit.png
+2025-06-27 00:41:03,681 [INFO]: User 1 deleted output for image_1_rohit.png
